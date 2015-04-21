@@ -8,7 +8,7 @@ ENV NODE_ENV development
 RUN sudo DEBIAN_FRONTEND=noninteractive apt-get -y install curl && curl -sL https://deb.nodesource.com/setup | sudo bash - && DEBIAN_FRONTEND=noninteractive apt-get -y install nodejs git-core libgmp3-dev graphicsmagick redis-server python-virtualenv
 
 # Install fxa-local-dev
-RUN useradd --home /home/fxa fxa && cd /home/fxa && git clone https://github.com/vladikoff/fxa-local-dev.git && cd fxa-local-dev && npm i --unsafe-perm
+RUN mkdir /home/fxa && useradd --home /home/fxa fxa && cd /home/fxa && git clone https://github.com/vladikoff/fxa-local-dev.git && cd fxa-local-dev && npm i --unsafe-perm
 
 WORKDIR /home/fxa/fxa-local-dev
 VOLUME ["/home/fxa"]
