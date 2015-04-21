@@ -5,13 +5,20 @@ MAINTAINER vladikoff <vlad@vladikoff.com>
 ENV NODE_ENV development
 
 # Install deps
-RUN sudo DEBIAN_FRONTEND=noninteractive apt-get -y install curl && curl -sL https://deb.nodesource.com/setup | sudo bash - && DEBIAN_FRONTEND=noninteractive apt-get -y install nodejs git-core libgmp3-dev graphicsmagick redis-server python-virtualenv
+RUN sudo DEBIAN_FRONTEND=noninteractive apt-get -y install curl && curl -sL https://deb.nodesource.com/setup | sudo bash - && DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential nodejs git-core libgmp3-dev graphicsmagick redis-server python-virtualenv
+
+RUN adduser --disabled-password --gecos '' fxa && adduser fxa sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN npm install -g npm@2.4
+USER fxa
 
 # Install fxa-local-dev
-RUN mkdir /home/fxa && useradd --home /home/fxa fxa && cd /home/fxa && git clone https://github.com/vladikoff/fxa-local-dev.git && cd fxa-local-dev && npm i --unsafe-perm
+RUN cd /home/fxa && git clone https://github.com/vladikoff/fxa-local-dev.git && cd fxa-local-dev && npm i
 
 WORKDIR /home/fxa/fxa-local-dev
 VOLUME ["/home/fxa"]
 
 # Expose ports
-EXPOSE 8125/udp
+EXPOSE 3030
+EXPOSE 9010
+EXPOSE 9011
+EXPOSE 5000
