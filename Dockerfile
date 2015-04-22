@@ -2,13 +2,12 @@ FROM ubuntu:utopic
 
 MAINTAINER vladikoff <vlad@vladikoff.com>
 
-ENV NODE_ENV development
-
 # Install deps
 RUN sudo DEBIAN_FRONTEND=noninteractive apt-get -y install curl && curl -sL https://deb.nodesource.com/setup | sudo bash - && DEBIAN_FRONTEND=noninteractive apt-get -y install build-essential nodejs git-core libgmp3-dev graphicsmagick redis-server python-virtualenv
 
 RUN adduser --disabled-password --gecos '' fxa && adduser fxa sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN npm install -g npm@2.4
+RUN npm install -g npm@2.4 && sh -c "ulimit -n 65535 && exec su $LOGNAME"
+
 USER fxa
 
 # Install fxa-local-dev
@@ -22,3 +21,5 @@ EXPOSE 3030
 EXPOSE 9010
 EXPOSE 9011
 EXPOSE 5000
+
+ENTRYPOINT ["./pm2", "start", "server.json"]
