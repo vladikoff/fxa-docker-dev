@@ -1,4 +1,4 @@
-FROM dockerfile/nodejs
+FROM node:0.10-onbuild
 
 MAINTAINER vladikoff <vlad@vladikoff.com>
 
