@@ -22,4 +22,5 @@ EXPOSE 9010
 EXPOSE 9011
 EXPOSE 5000
 
-ENTRYPOINT ["./pm2", "start", "server.json"]
+RUN ./pm2 kill
+ENTRYPOINT ./pm2 start servers.json
