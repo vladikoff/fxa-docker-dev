@@ -1,4 +1,4 @@
-FROM node:0.10-onbuild
+FROM node:0.10.28
 
 MAINTAINER vladikoff <vlad@vladikoff.com>
 
