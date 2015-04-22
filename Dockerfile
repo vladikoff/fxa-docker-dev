@@ -14,7 +14,7 @@ USER fxa
 RUN cd /home/fxa && git clone https://github.com/vladikoff/fxa-local-dev.git && cd fxa-local-dev && npm i
 
 WORKDIR /home/fxa/fxa-local-dev
-VOLUME ["/home/fxa"]
+VOLUME /root/.npm /home/fxa
 
 # Expose ports
 EXPOSE 3030
