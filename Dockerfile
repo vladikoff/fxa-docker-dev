@@ -1,20 +1,21 @@
-FROM node:0.10.28
+FROM vladikoff/fxa-slim-image:latest
 
 MAINTAINER vladikoff <vlad@vladikoff.com>
 
 RUN adduser --disabled-password --gecos '' fxa && adduser fxa sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-RUN npm install -g npm@2.4 && sh -c "ulimit -n 65535 && exec su $LOGNAME"
 
 USER fxa
 
-# Install fxa-local-dev
-RUN cd /home/fxa && git clone https://github.com/vladikoff/fxa-local-dev.git && cd fxa-local-dev
+RUN cd /home/fxa && git clone https://github.com/mozilla/fxa-content-server.git && cd fxa-content-server && npm i --production && cp server/config/local.json-dist server/config/local.json
+RUN cd /home/fxa && git clone https://github.com/mozilla/fxa-auth-server.git && cd fxa-auth-server && npm i && node ./scripts/gen_keys.js
+RUN npm cache clear
 
-WORKDIR /home/fxa/fxa-local-dev
-VOLUME /root/.npm /home/fxa
+VOLUME /home/fxa
+
+WORKDIR /home/fxa/fxa-content-server
+CMD npm start
 
 # Expose ports
 EXPOSE 3030
 EXPOSE 9010
 EXPOSE 9011
-EXPOSE 5000
