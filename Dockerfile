@@ -10,8 +10,6 @@ RUN cd /home/fxa && git clone https://github.com/mozilla/fxa-content-server.git 
 RUN cd /home/fxa && git clone https://github.com/mozilla/fxa-auth-server.git && cd fxa-auth-server && npm i && node ./scripts/gen_keys.js
 RUN npm cache clear
 
-VOLUME /home/fxa
-
 WORKDIR /home/fxa/fxa-content-server
 CMD npm start
 
@@ -19,3 +17,5 @@ CMD npm start
 EXPOSE 3030
 EXPOSE 9010
 EXPOSE 9011
+
+VOLUME /home/fxa
