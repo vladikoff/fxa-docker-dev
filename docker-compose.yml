@@ -3,11 +3,11 @@ version: '3'
 services:
   profile-web:
     command: node scripts/run_dev.js
+    environment:
+      HOST: "0.0.0.0"
+      WORKER_HOST: "0.0.0.0"
     image: mozilla/fxa-profile-server
     ports:
       - "1111:1111"
-  profile-worker:
-    command: node bin/worker.js
-    image: mozilla/fxa-profile-server
-    ports:
+      - "1112:1112"
       - "1113:1113"
