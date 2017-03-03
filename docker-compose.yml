@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  fxa-docker-dev:
+    build: .
+    command: ["sh", "-c", "tail -f /dev/null"]
+    ports:
+     # fxa-profile-server
+     - "1111:1111"
+     - "1112:1112"
+     - "1113:1113"
+  fxa-profile-server:
+    image: mozilla/fxa-profile-server
