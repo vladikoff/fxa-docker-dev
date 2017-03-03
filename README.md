@@ -1,4 +1,4 @@
-# fxa-docker-dev
+# fxa-docker-dev [![Build Status](https://travis-ci.org/vladikoff/fxa-docker-dev.svg?branch=master)](https://travis-ci.org/vladikoff/fxa-docker-dev)
 
 ## Getting started
 
