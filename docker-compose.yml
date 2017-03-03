@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  # fxa-oauth-server
+  oauth-web:
+    command: node bin/server.js
+    environment:
+      NODE_ENV: "dev"
+      HOST: "0.0.0.0"
+    image: mozilla/fxa-oauth-server
+    ports:
+      - "9010:9010"
+  # fxa-profile-server
   profile-web:
     command: node scripts/run_dev.js
     environment:
