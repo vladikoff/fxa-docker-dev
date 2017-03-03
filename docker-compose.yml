@@ -2,7 +2,7 @@ version: '3'
 
 services:
   profile-web:
-    command: node bin/server.js
+    command: node scripts/run_dev.js
     image: mozilla/fxa-profile-server
     ports:
       - "1111:1111"
