@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+  # fxa-content-server
+  fxa-content-web:
+    command: node server/bin/fxa-content-server.js
+    environment:
+      NODE_ENV: "development"
+      HOST: "0.0.0.0"
+    image: mozilla/fxa-content-server
+    ports:
+      - "3030:3030"
   # fxa-oauth-server
   oauth-web:
     command: node bin/server.js
@@ -10,6 +19,14 @@ services:
     image: mozilla/fxa-oauth-server
     ports:
       - "9010:9010"
+  # fxa-auth-db-mysql
+  auth-db-mysql:
+    command: node bin/mem.js
+    environment:
+      HOST: "0.0.0.0"
+    image: mozilla/fxa-auth-db-mysql
+    ports:
+      - "8000:8000"
   # fxa-profile-server
   profile-web:
     command: node scripts/run_dev.js
@@ -21,3 +38,11 @@ services:
       - "1111:1111"
       - "1112:1112"
       - "1113:1113"
+  # fxa-customs-server
+  customs:
+    command: node bin/customs_server.js
+    environment:
+      IP_ADDRESS: "0.0.0.0"
+    image: mozilla/fxa-customs-server
+    ports:
+      - "7000:7000"
