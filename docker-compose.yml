@@ -13,6 +13,19 @@ services:
     ports:
       - "3030:3030"
 
+  # fxa-auth-server
+  auth:
+    command: node bin/key_server.js
+    environment:
+      NODE_ENV: "dev"
+      HOST: "0.0.0.0"
+    image: mozilla/fxa-auth-server
+    depends_on:
+      auth-db-mysql:
+        condition: service_healthy
+    ports:
+      - "9000:9000"
+
   # fxa-oauth-server
   oauth-web:
     command: node bin/server.js
@@ -31,6 +44,12 @@ services:
     image: mozilla/fxa-auth-db-mysql
     ports:
       - "8000:8000"
+    healthcheck:
+      test: curl --fail http://127.0.0.1:8000/ || exit 1
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
   # fxa-profile-server
   profile-web:
     command: node scripts/run_dev.js
